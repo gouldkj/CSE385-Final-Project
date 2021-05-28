@@ -1,0 +1,95 @@
+﻿﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample Webservice Call</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+    </script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div style="padding:20px; width:500px;">
+        <table class="table table-sm" width="200">
+            <tr>
+                <th>UserName:</th>
+                <td><input type="text" id="txtUserName" class="form-control" /></td>
+            </tr>
+            <tr>
+                <th width="100px" scope="row">Movie:</th>
+                <td><input type="text" id="txtMovieName" class="form-control" /></td>
+            </tr>
+            <tr>
+                <th width="100px" scope="row">Score:</th>
+                <td><input type="text" id="txtScore" class="form-control" /></td>
+            </tr>
+            <tr>
+                <th width="100px" scope="row">Review:</th>
+                <td><input type="text" id="txtReview" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="button" id="btnPost" value="Post" class="btn btn-primary" />
+                </td>
+            </tr>
+            <tr>
+                <th width="75px" scope="row"><a href="Sample.html">Create a User</a></th>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <!-- ol is the container that will store the lists -->
+                    <ol id="ulList" class="list-group"></ol>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ulList = $('#ulList');
+            var userName = $('#txtUserName');
+            var movieName = $('#txtMovieName');
+            var score = $('#txtScore');
+            var review = $('#txtReview');
+
+            //===================================================================================================
+            // Get a list of random cars from an API
+            //===================================================================================================
+            $('#btnPost').click(function () {
+                ajax("createPost", { "userName": userName.val(), "movieName": movieName.val(), "score": score.val(), "review": review.val() }, function (data) {
+                    //ulList.empty();
+                    //$.each(data, function (index, val) {
+                    //    ulList.append('<li class="list-group-item">' +
+                    //        '<img src=https://robohash.org/' + val.userName + '.png width="50" />' +
+                    //        val.userName + ' - ' + val.movieName + ', ' + val.score + ' ' + val.review +
+                    //        '</li>')
+                    //});
+                });
+            });
+
+
+            //===================================================================================================
+            // Generic method for AJAX calls
+            //===================================================================================================
+            function ajax(method, data, fn) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'api.asmx/' + method,
+                    dataType: 'json',
+                    data: data,
+                    success: fn
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>

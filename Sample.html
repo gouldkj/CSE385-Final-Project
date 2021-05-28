@@ -1,0 +1,123 @@
+﻿﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>A simple example of using an API and dB</title>
+
+    <!-- JQuery: -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap js and css:  -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <div style="padding:20px; width:500px;">
+        <table class="table table-sm" width="200">
+            <tr>
+                <th>UserName:</th>
+                <td><input type="text" id="txtUserName" class="form-control" /></td>
+            </tr>
+
+            <!--<tr>
+                <th width="100px" scope="row">Last Name:</th>
+                <td><input type="text" id="txtPage" class="form-control" /></td>
+            </tr>
+
+            <tr>
+                <th width="100px" scope="row">User Name:</th>
+                <td><input type="text" id="txtCount" class="form-control" /></td>
+            </tr>
+
+            <tr>
+                <th width="100px" scope="row">Password:</th>
+                <td><input type="text" id="txtCount" class="form-control" /></td>
+            </tr>
+
+            <tr>
+                <th width="100px" scope="row">email:</th>
+                <td><input type="text" id="txtCount" class="form-control" /></td>
+            </tr>
+
+            <tr>
+                <th width="100px" scope="row">Age:</th>
+                <td><input type="text" id="txtCount" class="form-control" /></td>
+            </tr>
+
+            <tr>
+                <th width="100px" scope="row">If you are a Critic, check the box:</th>
+                <td><input type="checkbox" id="txtCount" class="form-control" /></td>
+            </tr>
+
+
+            <tr>
+                <th width="100px" scope="row"><a href="index.html">Make a Post Here</a></th>
+            </tr>-->
+
+            <tr>
+                <td></td>
+                <td>
+                    <input type="button" id="btnGetUserPosts" value="Search for Posts" class="btn btn-primary" />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <ol id="ulList" class="list-group"></ol>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ulList = $('#ulList');
+            var userName = $('#txtUserName');
+
+            //===================================================================================================
+            // Get a list of Vendors by state and page number (1 based) from an API
+            //===================================================================================================
+            $('#btnGetUserPosts').click(function () {
+                ajax("getUserPosts", { "userName": userName.val() }, function (data) {
+
+                    alert("This passed");
+
+                    ulList.empty();
+                    $.each(data, function (index, val) {
+                        ulList.append('<li class="list-group-item">' +
+                            val.userName + '<\li>'
+                        )
+                    });
+                });
+                //alert("The button was clicked");
+                //ajax("getVendorsByStateByPage", { "VendorState": VendorState.val(), "page": page.val(), "count": count.val() }, function (data) {
+                //    ulList.empty();
+                //    $.each(data, function (index, val) {
+                //        ulList.append('<li class="list-group-item">' +
+                //            '<img src=https://robohash.org/' + val.VendorName.replace(' ', '') + '.png width="50" />' +
+                //            val.VendorName + ' - ' + val.VendorCity + ', ' + val.VendorState + ' ' + val.VendorZipCode +
+                //            '</li>')
+                //    });
+                //});
+            });
+
+
+            //===================================================================================================
+            // Generic method for AJAX calls
+            //===================================================================================================
+            function ajax(method, data, fn) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'api.asmx/' + method,
+                    dataType: 'json',
+                    data: data,
+                    success: fn
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
